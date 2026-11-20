@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة النتائج | لوحة أكاديمية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Decorative background blobs -->
+  <div class="bg-blob bg-blob-1" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob-2" aria-hidden="true"></div>
+
+  <main class="app-wrapper">
+
+    <!-- ═══════════════════════════════════
+         HEADER
+    ════════════════════════════════════ -->
+    <header class="topbar">
+      <div class="topbar-brand">
+        <div class="brand-icon">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-eyebrow">الإدارة الأكاديمية</span>
+          <h1 class="brand-title">نظام إدارة النتائج</h1>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <div class="status-badge">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>متصل بالنظام</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════
+         MAIN GRID
+    ════════════════════════════════════ -->
+    <div class="app-grid">
+
+      <!-- ── LEFT COLUMN: Form ── -->
+      <section class="col-form">
+
+        <!-- Registration Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="section-icon-wrap">
+              <i class="bi bi-person-plus-fill"></i>
+            </div>
+            <div>
+              <span class="card-kicker">بيانات جديدة</span>
+              <h2 class="card-title">إضافة طالب</h2>
+            </div>
+          </div>
+
+          <form id="studentForm" novalidate>
+
+            <div class="field-group">
+              <label for="studentName" class="field-label">
+                <i class="bi bi-person label-icon"></i>
+                اسم الطالب
+              </label>
+              <input
+                type="text"
+                class="field-input"
+                id="studentName"
+                placeholder="أدخل اسم الطالب كاملاً"
+                autocomplete="off"
+              >
+            </div>
+
+            <div class="grades-row">
+              <div class="field-group">
+                <label for="grade1" class="field-label">المادة الأولى</label>
+                <div class="input-with-suffix">
+                  <input type="number" class="field-input" id="grade1" min="0" max="100" placeholder="0–100">
+                  <span class="input-suffix">درجة</span>
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="grade2" class="field-label">المادة الثانية</label>
+                <div class="input-with-suffix">
+                  <input type="number" class="field-input" id="grade2" min="0" max="100" placeholder="0–100">
+                  <span class="input-suffix">درجة</span>
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="grade3" class="field-label">المادة الثالثة</label>
+                <div class="input-with-suffix">
+                  <input type="number" class="field-input" id="grade3" min="0" max="100" placeholder="0–100">
+                  <span class="input-suffix">درجة</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="attendance" class="field-label">
+                <i class="bi bi-calendar-check label-icon"></i>
+                نسبة الحضور
+              </label>
+              <div class="input-with-suffix">
+                <input type="number" class="field-input" id="attendance" min="0" max="100" placeholder="0–100">
+                <span class="input-suffix pct">%</span>
+              </div>
+            </div>
+
+            <!-- Notifications (JS sets textContent directly on these elements) -->
+            <div id="errorBox" class="alert-box alert-error d-none" role="alert"></div>
+            <div id="successBox" class="alert-box alert-success d-none" role="status"></div>
+
+            <button type="submit" id="addStudentBtn" class="btn btn-primary">
+              <i class="bi bi-plus-circle-fill btn-icon"></i>
+              إضافة الطالب
+            </button>
+
+          </form>
+
+          <div class="divider">
+            <span class="divider-label">أدوات متقدمة</span>
+          </div>
+
+          <button type="button" id="mercyBtn" class="btn btn-mercy">
+            <i class="bi bi-stars btn-icon"></i>
+            تفعيل لجنة الرأفة
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ── RIGHT COLUMN: List + Report ── -->
+      <section class="col-data">
+
+        <!-- Students List Card -->
+        <div class="card">
+          <div class="card-header card-header-row">
+            <div class="card-header-left">
+              <div class="section-icon-wrap">
+                <i class="bi bi-people-fill"></i>
+              </div>
+              <h2 class="card-title">قائمة الطلاب</h2>
+            </div>
+            <span id="studentCount" class="count-badge">0 طلاب</span>
+          </div>
+
+          <div id="studentsList" class="students-list">
+            <p class="empty-state mb-0">لا يوجد طلاب مضافون حتى الآن.</p>
+          </div>
+        </div>
+
+        <!-- Report Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="section-icon-wrap section-icon-gold">
+              <i class="bi bi-clipboard-data-fill"></i>
+            </div>
+            <div>
+              <span class="card-kicker">النتائج والإحصاء</span>
+              <h2 class="card-title">التقرير النهائي</h2>
+            </div>
+          </div>
+
+          <div id="reportBox" class="report-box">
+            <p class="empty-state mb-0">فعّل لجنة الرأفة لإنشاء التقرير.</p>
+          </div>
+        </div>
+
+      </section>
+
+    </div><!-- /.app-grid -->
+
+    <footer class="app-footer">
+      <span>نظام إدارة النتائج الأكاديمية &copy; 2024</span>
+    </footer>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
